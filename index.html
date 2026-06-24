@@ -5,564 +5,61 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Asmaa Hassan | Skincare Store</title>
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #fcf8f5;
-            color: #4a4a4a;
-            scroll-behavior: smooth;
-        }
-
-        header {
-            background-color: #ffffff;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 10px rgba(216, 181, 169, 0.3);
-            border-bottom: 3px solid #e8c5b8;
-            padding: 10px 20px;
-        }
-
-        .header-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 1200px;
-            margin: 0 auto;
-            gap: 15px;
-        }
-
-        .logo-area h1 {
-            margin: 0;
-            font-size: 1.8em;
-            color: #bc7c65;
-            font-family: 'Times New Roman', serif;
-            letter-spacing: 1px;
-            cursor: pointer;
-        }
-
-        .search-bar {
-            flex-grow: 1;
-            max-width: 500px;
-            display: flex;
-        }
-        .search-bar input {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #e8c5b8;
-            border-radius: 0 20px 20px 0;
-            outline: none;
-        }
-        .search-bar button {
-            background: #bc7c65;
-            color: white;
-            border: none;
-            padding: 0 15px;
-            border-radius: 20px 0 0 20px;
-            cursor: pointer;
-        }
-
-        .cart-header-btn {
-            background: none;
-            border: none;
-            cursor: pointer;
-            position: relative;
-            display: flex;
-            align-items: center;
-            font-size: 1.8em;
-            color: #bc7c65;
-            padding: 5px;
-        }
-        .cart-badge {
-            position: absolute;
-            top: -5px;
-            left: -5px;
-            background: #ff4d4d;
-            color: white;
-            font-size: 0.5em;
-            font-weight: bold;
-            padding: 3px 7px;
-            border-radius: 50%;
-            font-family: Arial, sans-serif;
-        }
-
-        .hero {
-            text-align: center;
-            padding: 60px 20px;
-            background: linear-gradient(rgba(255, 255, 255, 0.65), rgba(255, 255, 255, 0.65)), 
-                        url('https://images.unsplash.com/photo-1608248597481-496100c8c836?w=1200&auto=format&fit=crop&q=80');
-            background-size: cover;
-            background-position: center;
-            border-bottom: 1px solid #f2dfd7;
-        }
-        .hero h2 {
-            font-size: 2.5em;
-            margin: 0 0 10px 0;
-            color: #8c533e;
-        }
-
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-            padding: 20px;
-            max-width: 1200px;
-            margin: auto;
-        }
-        .product-card {
-            background: #ffffff;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 6px 15px rgba(216, 181, 169, 0.15);
-            border: 1px solid #f2dfd7;
-            display: flex;
-            flex-direction: column;
-            transition: transform 0.3s;
-            position: relative;
-        }
-        .product-card:hover {
-            transform: translateY(-5px);
-        }
-        .product-image {
-            width: 100%;
-            height: 250px;
-            object-fit: cover;
-        }
-        .product-content {
-            padding: 20px;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-        }
-        .product-title {
-            margin: 0 0 10px 0;
-            font-size: 1.3em;
-            color: #333;
-        }
-        
-        .quantity-area {
-            margin: 15px 0;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .quantity-area select {
-            padding: 5px 10px;
-            border: 1px solid #e8c5b8;
-            border-radius: 5px;
-            background: white;
-        }
-
-        .product-meta {
-            margin-top: auto;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding-top: 15px;
-            border-top: 1px solid #f9f2ef;
-        }
-        .product-price {
-            font-size: 1.3em;
-            font-weight: bold;
-            color: #8c533e;
-        }
-        .btn-add {
-            background-color: #bc7c65;
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 20px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-        .btn-add:hover {
-            background-color: #8c533e;
-        }
-
-        .btn-delete-prod {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: #ff4d4d;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-            display: none;
-            z-index: 10;
-        }
-
-        .cart-sidebar {
-            position: fixed;
-            top: 0;
-            left: -400px;
-            width: 360px;
-            height: 100%;
-            background: white;
-            box-shadow: 4px 0 25px rgba(0,0,0,0.2);
-            z-index: 2000;
-            transition: left 0.3s ease;
-            display: flex;
-            flex-direction: column;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-        .cart-sidebar.open {
-            left: 0;
-        }
-        .cart-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 2px solid #f2dfd7;
-            padding-bottom: 10px;
-        }
-        .close-btn {
-            background: none;
-            border: none;
-            font-size: 1.3em;
-            cursor: pointer;
-            color: #8c533e;
-        }
-        .cart-items-container {
-            flex-grow: 1;
-            overflow-y: auto;
-            margin-top: 15px;
-        }
-        .cart-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 0;
-            border-bottom: 1px solid #f9f2ef;
-        }
-        .delete-item-btn {
-            background: none;
-            border: none;
-            color: #ff4d4d;
-            cursor: pointer;
-            font-size: 0.9em;
-        }
-
-        .cart-summary {
-            background: #fffcfb;
-            padding: 15px;
-            border-radius: 8px;
-            border: 1px solid #f2dfd7;
-            margin-top: 10px;
-        }
-        .total-box {
-            font-size: 1.2em;
-            font-weight: bold;
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 15px;
-            color: #333;
-        }
-        .checkout-inputs input {
-            width: 100%;
-            padding: 8px;
-            margin-bottom: 10px;
-            border: 1px solid #e8c5b8;
-            border-radius: 5px;
-            box-sizing: border-box;
-        }
-        .btn-whatsapp {
-            width: 100%;
-            background-color: #25D366;
-            color: white;
-            border: none;
-            padding: 12px;
-            border-radius: 5px;
-            font-weight: bold;
-            font-size: 1em;
-            cursor: pointer;
-        }
-        .btn-whatsapp:hover {
-            background-color: #128C7E;
-        }
-
-        .admin-panel {
-            background-color: #fff1eb;
-            border: 2px dashed #bc7c65;
-            padding: 20px;
-            max-width: 600px;
-            margin: 30px auto;
-            border-radius: 12px;
-            display: none;
-        }
-        .admin-panel h3 {
-            margin-top: 0;
-            color: #8c533e;
-        }
-        .admin-panel input, .admin-panel button {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #e8c5b8;
-            border-radius: 5px;
-            box-sizing: border-box;
-        }
-        .admin-panel button {
-            background-color: #bc7c65;
-            color: white;
-            font-weight: bold;
-            cursor: pointer;
-            border: none;
-        }
-        .admin-panel button:hover {
-            background-color: #8c533e;
-        }
-
-        footer {
-            text-align: center;
-            padding: 20px;
-            color: #aaa;
-            font-size: 0.9em;
-            margin-top: 40px;
-        }
-        .admin-login-btn {
-            background: none;
-            border: none;
-            color: #fcf8f5;
-            font-size: 0.8em;
-            cursor: pointer;
-        }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; background-color: #fcf8f5; color: #4a4a4a; }
+        header { background-color: #ffffff; padding: 10px 20px; box-shadow: 0 2px 10px rgba(216, 181, 169, 0.3); }
+        .logo-area h1 { color: #bc7c65; text-align: center; }
+        .admin-panel { background-color: #fff1eb; border: 2px dashed #bc7c65; padding: 20px; max-width: 600px; margin: 30px auto; border-radius: 12px; }
+        .admin-panel input, .admin-panel button { width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #e8c5b8; border-radius: 5px; }
+        .admin-panel button { background-color: #bc7c65; color: white; cursor: pointer; border: none; }
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; padding: 20px; max-width: 1200px; margin: auto; }
+        .product-card { background: #ffffff; border-radius: 12px; padding: 20px; box-shadow: 0 6px 15px rgba(216, 181, 169, 0.15); }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="header-container">
-            <div class="logo-area">
-                <h1 onclick="askForAdmin()">ASMAA HASSAN</h1>
-            </div>
-            <div class="search-bar">
-                <input type="text" placeholder="ابحث عن منتجات العناية بالبشرة...">
-                <button>🔍</button>
-            </div>
-            <button class="cart-header-btn" onclick="openCartSidebar()">
-                🛒 <span class="cart-badge" id="globalCartCount">0</span>
-            </button>
-        </div>
+        <div class="logo-area"><h1>ASMAA HASSAN</h1></div>
     </header>
 
-    <section class="hero">
-        <h2>مجموعة العناية المتميزة بالبشرة</h2>
-        <p>اكتشفي الروتين المثالي لبشرة نضرة ومشرقة دائماً</p>
+    <div class="admin-panel">
+        <h3>إضافة منتجات (تظهر للجميع فوراً) ✨</h3>
+        <input type="text" id="newProdTitle" placeholder="اسم المنتج">
+        <input type="number" id="newProdPrice" placeholder="السعر">
+        <input type="text" id="newProdImg" placeholder="رابط الصورة">
+        <button onclick="addNewProductToFirebase()">إضافة المنتج 🚀</button>
+    </div>
+
+    <section class="products-grid" id="productsContainer">
+        <div id="loadingText">جاري تحميل المنتجات...</div>
     </section>
 
-    <div class="admin-panel" id="adminPanel">
-        <h3>لوحة التحكم وإدارة المنتجات 🔐</h3>
-        <input type="text" id="newProdTitle" placeholder="اسم المنتج الجديد">
-        <input type="number" id="newProdPrice" placeholder="السعر (ج.م)">
-        <input type="text" id="newProdImg" placeholder="رابط الصورة من الإنترنت">
-        <button onclick="addNewProductFromPanel()">إضافة المنتج فوراً ✨</button>
-        <button style="background-color: #666;" onclick="logoutAdmin()">خروج من وضع الإدارة</button>
-    </div>
-
-    <section class="products-grid" id="productsContainer"></section>
-
-    <div class="cart-sidebar" id="sidebarCart">
-        <div class="cart-header">
-            <h3>سلة التسوق 🛒</h3>
-            <button class="close-btn" onclick="closeCartSidebar()">✕ إغلاق</button>
-        </div>
-        <div class="cart-items-container" id="sidebarItemsList">
-            <p style="text-align: center; color: #aaa; margin-top: 30px;">السلة فارغة حالياً</p>
-        </div>
-        <div class="cart-summary">
-            <div class="total-box">
-                <span>الإجمالي الكلي:</span>
-                <span style="color:#8c533e;"><span id="totalPriceSum">0</span> ج.م</span>
-            </div>
-            <div class="checkout-inputs">
-                <input type="text" id="custName" placeholder="الاسم بالكامل" required>
-                <input type="tel" id="custPhone" placeholder="رقم التليفون" required>
-                <input type="text" id="custAddress" placeholder="المكان / عنوان التوصيل" required>
-                <button class="btn-whatsapp" onclick="checkoutOrder()">تأكيد وشحن الطلب عبر واتساب 💬</button>
-            </div>
-        </div>
-    </div>
-
-    <footer>
-        <p>&copy; 2026 ASMAA HASSAN | جميع الحقوق محفوظة.</p>
-        <button class="admin-login-btn" onclick="askForAdmin()">دخول الإدارة 🔐</button>
-    </footer>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
     <script>
-        const WHATSAPP_PHONE = "201110974293";
-        const ADMIN_PASSWORD = "1919"; 
+        const firebaseConfig = { databaseURL: "https://asmaa-hassan-store-default-rtdb.firebaseio.com/" };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database().ref("shared_products");
 
-        let shoppingCart = [];
-        let isAdminMode = false;
-        let products = [];
-
-        const defaultProducts = [
-            { id: "1", title: "غسول البشرة اللطيف", price: 250, img: "https://images.unsplash.com/photo-1601049541289-9b1b7bbbfe19?w=400" },
-            { id: "2", title: "سيروم فيتامين C المركّز", price: 380, img: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=400" },
-            { id: "3", title: "كريم الترطيب الهيالورونيك", price: 300, img: "https://images.unsplash.com/photo-1601049676099-e7ed07d825b0?w=400" },
-            { id: "4", title: "ماسكرا للمنتجات المتميزة", price: 220, img: "https://images.unsplash.com/photo-1612817288484-6f916006741a?w=400" }
-        ];
-
-        function loadProducts() {
-            const saved = localStorage.getItem('stored_products');
-            if (saved) {
-                products = JSON.parse(saved);
-            } else {
-                products = defaultProducts;
-                localStorage.setItem('stored_products', JSON.stringify(products));
-            }
-            renderProducts();
-        }
-
-        function renderProducts() {
+        db.on('value', (snapshot) => {
+            const data = snapshot.val();
             const container = document.getElementById('productsContainer');
             container.innerHTML = '';
-
-            products.forEach((prod) => {
-                container.innerHTML += `
-                    <div class="product-card">
-                        <button class="btn-delete-prod" style="display: ${isAdminMode ? 'block' : 'none'};" onclick="deleteProductFromStore('${prod.id}')">حذف ❌</button>
-                        <img src="${prod.img}" class="product-image">
-                        <div class="product-content">
-                            <h3 class="product-title">${prod.title}</h3>
-                            <div class="quantity-area">
-                                <label>الكمية:</label>
-                                <select id="select-qty-${prod.id}">
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                </select>
-                            </div>
-                            <div class="product-meta">
-                                <span class="product-price">${prod.price} ج.م</span>
-                                <button class="btn-add" onclick="addItemToCart('${prod.title}', ${prod.price}, 'select-qty-${prod.id}')">إضافة للسلة 🛒</button>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            });
-        }
-
-        function askForAdmin() {
-            const pass = prompt("الرجاء إدخال الرقم السري للإدارة للتحكم في المنتجات:");
-            if (pass === ADMIN_PASSWORD) {
-                isAdminMode = true;
-                document.getElementById('adminPanel').style.display = 'block';
-                renderProducts();
-                alert("تم تفعيل وضع الإدارة بنجاح!");
-            } else if (pass !== null) {
-                alert("الرقم السري خاطئ!");
+            if (data) {
+                for (let id in data) {
+                    const prod = data[id];
+                    container.innerHTML += `<div class="product-card"><h3>${prod.title}</h3><p>${prod.price} ج.م</p></div>`;
+                }
             }
+        });
+
+        function addNewProductToFirebase() {
+            const title = document.getElementById('newProdTitle').value;
+            const price = document.getElementById('newProdPrice').value;
+            const img = document.getElementById('newProdImg').value;
+            db.push({ title, price, img });
+            alert("تم الإضافة بنجاح!");
         }
-
-        function logoutAdmin() {
-            isAdminMode = false;
-            document.getElementById('adminPanel').style.display = 'none';
-            renderProducts();
-        }
-
-        function addNewProductFromPanel() {
-            const title = document.getElementById('newProdTitle').value.trim();
-            const price = parseInt(document.getElementById('newProdPrice').value);
-            const img = document.getElementById('newProdImg').value.trim();
-
-            if (!title || !price) {
-                alert("برجاء كتابة الاسم والسعر لإضافة المنتج.");
-                return;
-            }
-
-            const newProd = {
-                id: Date.now().toString(),
-                title: title,
-                price: price,
-                img: img || "https://images.unsplash.com/photo-1612817288484-6f916006741a?w=400"
-            };
-
-            products.push(newProd);
-            localStorage.setItem('stored_products', JSON.stringify(products));
-            renderProducts();
-            alert("تم إضافة المنتج بنجاح! 🎉");
-
-            document.getElementById('newProdTitle').value = '';
-            document.getElementById('newProdPrice').value = '';
-            document.getElementById('newProdImg').value = '';
-        }
-
-        function deleteProductFromStore(id) {
-            if(confirm("هل تريد حذف هذا المنتج نهائياً؟")) {
-                products = products.filter(p => p.id !== id);
-                localStorage.setItem('stored_products', JSON.stringify(products));
-                renderProducts();
-                alert("تم الحذف بنجاح!");
-            }
-        }
-
-        function openCartSidebar() { document.getElementById('sidebarCart').classList.add('open'); }
-        function closeCartSidebar() { document.getElementById('sidebarCart').classList.remove('open'); }
-
-        function addItemToCart(title, price, selectId) {
-            const qty = parseInt(document.getElementById(selectId).value);
-            const foundIndex = shoppingCart.findIndex(item => item.title === title);
-            if (foundIndex > -1) { shoppingCart[foundIndex].qty += qty; } 
-            else { shoppingCart.push({ title, price, qty }); }
-            document.getElementById(selectId).value = "1";
-            renderCart();
-            openCartSidebar();
-        }
-
-        function deleteItem(index) { shoppingCart.splice(index, 1); renderCart(); }
-
-        function renderCart() {
-            const listContainer = document.getElementById('sidebarItemsList');
-            const globalCountBadge = document.getElementById('globalCartCount');
-            const totalSumSpan = document.getElementById('totalPriceSum');
-
-            if (shoppingCart.length === 0) {
-                listContainer.innerHTML = '<p style="text-align: center; color: #aaa; margin-top: 30px;">السلة فارغة حالياً</p>';
-                globalCountBadge.innerText = "0"; totalSumSpan.innerText = "0"; return;
-            }
-            listContainer.innerHTML = '';
-            let currentTotal = 0; let currentItemsCount = 0;
-            shoppingCart.forEach((item, index) => {
-                const cost = item.price * item.qty;
-                currentTotal += cost; currentItemsCount += item.qty;
-                listContainer.innerHTML += `
-                    <div class="cart-item">
-                        <div><strong>${item.title}</strong><br>${item.qty} قطع × ${item.price} ج.م</div>
-                        <div style="text-align: left;">
-                            <span style="font-weight: bold; display: block; color: #8c533e;">${cost} ج.م</span>
-                            <button class="delete-item-btn" onclick="deleteItem(${index})">إزالة</button>
-                        </div>
-                    </div>`;
-            });
-            globalCountBadge.innerText = currentItemsCount; totalSumSpan.innerText = currentTotal;
-        }
-
-        function checkoutOrder() {
-            const name = document.getElementById('custName').value.trim();
-            const phone = document.getElementById('custPhone').value.trim();
-            const addr = document.getElementById('custAddress').value.trim();
-            if (shoppingCart.length === 0) { alert('سلتك فارغة!'); return; }
-            if (!name || !phone || !addr) { alert('الرجاء ملء البيانات كاملة.'); return; }
-
-            let msg = `طلب جديد من متجر ASMAA HASSAN 🛍️\n\n👤 بيانات الشحن:\n- الاسم: ${name}\n- التليفون: ${phone}\n- المكان: ${addr}\n\n📦 المنتجات:\n`;
-            let finalPrice = 0;
-            shoppingCart.forEach(item => {
-                const itemCost = item.price * item.qty; finalPrice += itemCost;
-                msg += `- ${item.title} (العدد: ${item.qty}) -> ${itemCost} ج.م\n`;
-            });
-            msg += `\n💰 الإجمالي النهائي: ${finalPrice} ج.م`;
-            window.open(`https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(msg)}`, '_blank');
-        }
-
-        window.onload = loadProducts;
     </script>
 </body>
 </html>
