@@ -2,46 +2,47 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Asmaa Hassan | Skincare Store</title>
+    <title>Asmaa Hassan Store</title>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; margin: 0; background-color: #fcf8f5; text-align: center; }
-        header { background-color: #ffffff; padding: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        .admin-panel { background-color: #fff1eb; border: 2px dashed #bc7c65; padding: 20px; max-width: 500px; margin: 20px auto; border-radius: 12px; }
-        input, button { width: 90%; padding: 10px; margin: 5px; border: 1px solid #ccc; border-radius: 5px; }
-        button { background-color: #bc7c65; color: white; border: none; cursor: pointer; }
-        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; padding: 20px; }
+        body { font-family: sans-serif; background: #fcf8f5; text-align: center; }
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; padding: 20px; }
         .card { background: white; padding: 15px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .admin-panel { background: #fff1eb; padding: 20px; border: 2px dashed #bc7c65; margin: 20px auto; max-width: 500px; }
+        input, button { width: 90%; padding: 10px; margin: 5px; }
     </style>
 </head>
 <body>
+    <h1>ASMAA HASSAN</h1>
+    
+    <div id="admin-login">
+        <input type="password" id="pass" placeholder="كلمة السر">
+        <button onclick="checkPass()">دخول الإدارة</button>
+    </div>
 
-    <header><h1>ASMAA HASSAN</h1></header>
-
-    <div class="admin-panel">
-        <h3>إضافة منتج جديد</h3>
+    <div id="admin-panel" class="admin-panel" style="display:none;">
         <input type="text" id="pName" placeholder="اسم المنتج">
         <input type="text" id="pPrice" placeholder="السعر">
         <button onclick="addProduct()">إضافة للمتجر</button>
     </div>
 
-    <div class="products-grid" id="products"></div>
+    <div class="product-grid" id="products"></div>
 
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
-
     <script>
-        const firebaseConfig = { databaseURL: "https://asmaa-hassan-store-default-rtdb.firebaseio.com/" };
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.database().ref("products");
+        const db = firebase.initializeApp({databaseURL: "https://asmaa-hassan-store-default-rtdb.firebaseio.com/"}).database().ref("products");
+        
+        function checkPass() {
+            if(document.getElementById('pass').value === "1919") {
+                document.getElementById('admin-panel').style.display = "block";
+                document.getElementById('admin-login').style.display = "none";
+            } else { alert("كلمة سر خاطئة!"); }
+        }
 
         function addProduct() {
             const title = document.getElementById('pName').value;
             const price = document.getElementById('pPrice').value;
-            if(title && price) {
-                db.push({ title, price });
-                alert("تمت الإضافة!");
-            }
+            if(title && price) { db.push({ title, price }); alert("تمت الإضافة!"); }
         }
 
         db.on('value', (snapshot) => {
