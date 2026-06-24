@@ -5,33 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Asmaa Hassan | Skincare Store</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; background-color: #fcf8f5; color: #4a4a4a; }
-        header { background-color: #ffffff; padding: 10px 20px; box-shadow: 0 2px 10px rgba(216, 181, 169, 0.3); }
-        .logo-area h1 { color: #bc7c65; text-align: center; }
-        .admin-panel { background-color: #fff1eb; border: 2px dashed #bc7c65; padding: 20px; max-width: 600px; margin: 30px auto; border-radius: 12px; }
-        .admin-panel input, .admin-panel button { width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #e8c5b8; border-radius: 5px; }
-        .admin-panel button { background-color: #bc7c65; color: white; cursor: pointer; border: none; }
-        .products-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; padding: 20px; max-width: 1200px; margin: auto; }
-        .product-card { background: #ffffff; border-radius: 12px; padding: 20px; box-shadow: 0 6px 15px rgba(216, 181, 169, 0.15); }
+        body { font-family: 'Segoe UI', sans-serif; margin: 0; background-color: #fcf8f5; text-align: center; }
+        header { background-color: #ffffff; padding: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .admin-panel { background-color: #fff1eb; border: 2px dashed #bc7c65; padding: 20px; max-width: 500px; margin: 20px auto; border-radius: 12px; }
+        input, button { width: 90%; padding: 10px; margin: 5px; border: 1px solid #ccc; border-radius: 5px; }
+        button { background-color: #bc7c65; color: white; border: none; cursor: pointer; }
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; padding: 20px; }
+        .card { background: white; padding: 15px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
     </style>
 </head>
 <body>
 
-    <header>
-        <div class="logo-area"><h1>ASMAA HASSAN</h1></div>
-    </header>
+    <header><h1>ASMAA HASSAN</h1></header>
 
     <div class="admin-panel">
-        <h3>إضافة منتجات (تظهر للجميع فوراً) ✨</h3>
-        <input type="text" id="newProdTitle" placeholder="اسم المنتج">
-        <input type="number" id="newProdPrice" placeholder="السعر">
-        <input type="text" id="newProdImg" placeholder="رابط الصورة">
-        <button onclick="addNewProductToFirebase()">إضافة المنتج 🚀</button>
+        <h3>إضافة منتج جديد</h3>
+        <input type="text" id="pName" placeholder="اسم المنتج">
+        <input type="text" id="pPrice" placeholder="السعر">
+        <button onclick="addProduct()">إضافة للمتجر</button>
     </div>
 
-    <section class="products-grid" id="productsContainer">
-        <div id="loadingText">جاري تحميل المنتجات...</div>
-    </section>
+    <div class="products-grid" id="products"></div>
 
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
@@ -39,27 +33,25 @@
     <script>
         const firebaseConfig = { databaseURL: "https://asmaa-hassan-store-default-rtdb.firebaseio.com/" };
         firebase.initializeApp(firebaseConfig);
-        const db = firebase.database().ref("shared_products");
+        const db = firebase.database().ref("products");
+
+        function addProduct() {
+            const title = document.getElementById('pName').value;
+            const price = document.getElementById('pPrice').value;
+            if(title && price) {
+                db.push({ title, price });
+                alert("تمت الإضافة!");
+            }
+        }
 
         db.on('value', (snapshot) => {
+            const list = document.getElementById('products');
+            list.innerHTML = '';
             const data = snapshot.val();
-            const container = document.getElementById('productsContainer');
-            container.innerHTML = '';
-            if (data) {
-                for (let id in data) {
-                    const prod = data[id];
-                    container.innerHTML += `<div class="product-card"><h3>${prod.title}</h3><p>${prod.price} ج.م</p></div>`;
-                }
+            for(let id in data) {
+                list.innerHTML += `<div class="card"><h3>${data[id].title}</h3><p>${data[id].price} ج.م</p></div>`;
             }
         });
-
-        function addNewProductToFirebase() {
-            const title = document.getElementById('newProdTitle').value;
-            const price = document.getElementById('newProdPrice').value;
-            const img = document.getElementById('newProdImg').value;
-            db.push({ title, price, img });
-            alert("تم الإضافة بنجاح!");
-        }
     </script>
 </body>
 </html>
