@@ -2,30 +2,34 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Asmaa Hassan Store</title>
     <style>
-        body { font-family: sans-serif; background: #fcf8f5; text-align: center; }
-        .product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; padding: 20px; }
-        .card { background: white; padding: 15px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .admin-panel { background: #fff1eb; padding: 20px; border: 2px dashed #bc7c65; margin: 20px auto; max-width: 500px; }
+        body { font-family: sans-serif; background: #fcf8f5; margin: 0; }
+        header { background: #fff; padding: 20px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .admin-panel { background: #fff1eb; padding: 20px; border: 2px dashed #bc7c65; margin: 20px auto; max-width: 500px; display: none; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; padding: 20px; }
+        .card { background: white; padding: 15px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); text-align: center; }
+        .card img { width: 100%; height: 200px; object-fit: cover; border-radius: 5px; }
         input, button { width: 90%; padding: 10px; margin: 5px; }
     </style>
 </head>
 <body>
-    <h1>ASMAA HASSAN</h1>
-    
-    <div id="admin-login">
+    <header><h1>ASMAA HASSAN</h1></header>
+
+    <div style="text-align:center; margin: 20px;">
         <input type="password" id="pass" placeholder="كلمة السر">
         <button onclick="checkPass()">دخول الإدارة</button>
     </div>
 
-    <div id="admin-panel" class="admin-panel" style="display:none;">
+    <div id="admin-panel" class="admin-panel">
         <input type="text" id="pName" placeholder="اسم المنتج">
         <input type="text" id="pPrice" placeholder="السعر">
-        <button onclick="addProduct()">إضافة للمتجر</button>
+        <input type="text" id="pImg" placeholder="رابط الصورة">
+        <button onclick="addProduct()">إضافة للمتجر (يظهر للكل)</button>
     </div>
 
-    <div class="product-grid" id="products"></div>
+    <div class="grid" id="products"></div>
 
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
@@ -35,14 +39,14 @@
         function checkPass() {
             if(document.getElementById('pass').value === "1919") {
                 document.getElementById('admin-panel').style.display = "block";
-                document.getElementById('admin-login').style.display = "none";
             } else { alert("كلمة سر خاطئة!"); }
         }
 
         function addProduct() {
             const title = document.getElementById('pName').value;
             const price = document.getElementById('pPrice').value;
-            if(title && price) { db.push({ title, price }); alert("تمت الإضافة!"); }
+            const img = document.getElementById('pImg').value;
+            if(title && price && img) { db.push({ title, price, img }); alert("تمت الإضافة!"); }
         }
 
         db.on('value', (snapshot) => {
@@ -50,7 +54,12 @@
             list.innerHTML = '';
             const data = snapshot.val();
             for(let id in data) {
-                list.innerHTML += `<div class="card"><h3>${data[id].title}</h3><p>${data[id].price} ج.م</p></div>`;
+                list.innerHTML += `
+                    <div class="card">
+                        <img src="${data[id].img}">
+                        <h3>${data[id].title}</h3>
+                        <p>${data[id].price} ج.م</p>
+                    </div>`;
             }
         });
     </script>
