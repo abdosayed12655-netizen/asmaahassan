@@ -5,50 +5,64 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Asmaa Hassan Store</title>
     <style>
-        body { font-family: sans-serif; background: #fcf8f5; margin: 0; }
-        header { background: #fff; padding: 20px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .admin-panel { background: #fff1eb; padding: 20px; border: 2px dashed #bc7c65; margin: 20px auto; max-width: 500px; display: none; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; padding: 20px; }
-        .card { background: white; padding: 15px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); text-align: center; }
-        .card img { width: 100%; height: 200px; object-fit: cover; border-radius: 5px; }
-        input, button { width: 90%; padding: 10px; margin: 5px; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: #fcf8f5; margin: 0; padding: 0; }
+        header { background: #fff; padding: 20px; text-align: center; box-shadow: 0 2px 10px rgba(216, 181, 169, 0.3); border-bottom: 3px solid #e8c5b8; color: #bc7c65; }
+        .admin-box { background: #fff1eb; border: 2px dashed #bc7c65; padding: 20px; max-width: 500px; margin: 20px auto; border-radius: 12px; display: none; text-align: center; }
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; padding: 20px; max-width: 1200px; margin: auto; }
+        .card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 6px 15px rgba(216, 181, 169, 0.15); text-align: center; }
+        .card img { width: 100%; height: 250px; object-fit: cover; border-radius: 8px; }
+        input, button { width: 90%; padding: 10px; margin: 5px; border: 1px solid #e8c5b8; border-radius: 5px; }
+        button { background-color: #bc7c65; color: white; cursor: pointer; border: none; font-weight: bold; }
+        .login-box { text-align: center; margin: 20px; }
     </style>
 </head>
 <body>
+
     <header><h1>ASMAA HASSAN</h1></header>
 
-    <div style="text-align:center; margin: 20px;">
+    <div class="login-box">
         <input type="password" id="pass" placeholder="كلمة السر">
-        <button onclick="checkPass()">دخول الإدارة</button>
+        <button onclick="checkPass()">دخول الإدارة 🔐</button>
     </div>
 
-    <div id="admin-panel" class="admin-panel">
+    <div id="admin-panel" class="admin-box">
+        <h3>لوحة التحكم (تحديث سحابي)</h3>
         <input type="text" id="pName" placeholder="اسم المنتج">
-        <input type="text" id="pPrice" placeholder="السعر">
-        <input type="text" id="pImg" placeholder="رابط الصورة">
-        <button onclick="addProduct()">إضافة للمتجر (يظهر للكل)</button>
+        <input type="text" id="pPrice" placeholder="السعر (ج.م)">
+        <input type="text" id="pImg" placeholder="رابط صورة المنتج">
+        <button onclick="addProduct()">إضافة للمتجر 🚀</button>
     </div>
 
-    <div class="grid" id="products"></div>
+    <div class="products-grid" id="products"></div>
 
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    
     <script>
-        const db = firebase.initializeApp({databaseURL: "https://asmaa-hassan-store-default-rtdb.firebaseio.com/"}).database().ref("products");
+        // إعداد السيرفر
+        const db = firebase.initializeApp({
+            databaseURL: "https://asmaa-hassan-store-default-rtdb.firebaseio.com/"
+        }).database().ref("products");
         
+        // التحقق من كلمة السر
         function checkPass() {
             if(document.getElementById('pass').value === "1919") {
                 document.getElementById('admin-panel').style.display = "block";
-            } else { alert("كلمة سر خاطئة!"); }
+            } else { alert("كلمة السر خطأ!"); }
         }
 
+        // إضافة المنتج للسيرفر
         function addProduct() {
             const title = document.getElementById('pName').value;
             const price = document.getElementById('pPrice').value;
             const img = document.getElementById('pImg').value;
-            if(title && price && img) { db.push({ title, price, img }); alert("تمت الإضافة!"); }
+            if(title && price && img) { 
+                db.push({ title, price, img }); 
+                alert("تمت الإضافة بنجاح!");
+            }
         }
 
+        // عرض المنتجات (تحديث لحظي عند أي تغيير)
         db.on('value', (snapshot) => {
             const list = document.getElementById('products');
             list.innerHTML = '';
@@ -58,7 +72,8 @@
                     <div class="card">
                         <img src="${data[id].img}">
                         <h3>${data[id].title}</h3>
-                        <p>${data[id].price} ج.م</p>
+                        <p style="color:#bc7c65; font-weight:bold;">${data[id].price} ج.م</p>
+                        <button onclick="alert('تمت الإضافة للسلة!')">إضافة للسلة 🛒</button>
                     </div>`;
             }
         });
